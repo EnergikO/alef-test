@@ -16,16 +16,17 @@ Route::prefix('/students')->group(function () {
 Route::prefix('/groups')->group(function () {
     Route::get('/', [v1\GroupController::class, 'getGroups'])->name('groups.get.all');
     Route::get('/{id}', [v1\GroupController::class, 'getGroupById'])->name('groups.get');
-    Route::get('/{id}/lessons', [v1\GroupController::class, 'getGroupLessons'])->name('groups.get.lessons');
-    Route::post('/', [v1\GroupController::class, 'createGroups'])->name('groups.create');
-    Route::post('/{id}', [v1\GroupController::class, 'updateGroups'])->name('groups.update');
-    Route::delete('/{id}', [v1\GroupController::class, 'deleteGroups'])->name('groups.delete');
+    Route::post('/', [v1\GroupController::class, 'createGroup'])->name('groups.create');
+    Route::post('/{id}', [v1\GroupController::class, 'updateGroup'])->name('groups.update');
+    Route::delete('/{id}', [v1\GroupController::class, 'deleteGroup'])->name('groups.delete');
+
+    Route::get('/{id}/lessons', [v1\LessonController::class, 'getGroupLessons'])->name('groups.get.lessons');
 });
 
 Route::prefix('/lessons')->group(function () {
-    Route::get('/', [v1\LessonController::class, 'getStudents'])->name('lessons.get.all');
-    Route::get('/{id}', [v1\LessonController::class, 'getStudentById'])->name('lessons.get');
-    Route::post('/', [v1\LessonController::class, 'createStudent'])->name('lessons.create');
-    Route::post('/{id}', [v1\LessonController::class, 'updateStudent'])->name('lessons.update');
-    Route::delete('/{id}', [v1\LessonController::class, 'deleteStudent'])->name('lessons.delete');
+    // Route::get('/', [v1\LessonController::class, 'getLessons'])->name('lessons.get.all');
+    // Route::get('/{id}', [v1\LessonController::class, 'getLessonById'])->name('lessons.get');
+    // Route::post('/', [v1\LessonController::class, 'createLesson'])->name('lessons.create');
+    // Route::post('/{id}', [v1\LessonController::class, 'updateLesson'])->name('lessons.update');
+    // Route::delete('/{id}', [v1\LessonController::class, 'deleteLesson'])->name('lessons.delete');
 });
