@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Group extends Model
 {
@@ -12,18 +13,18 @@ class Group extends Model
 
     protected $fillable = ['name'];
 
-    public function students(): BelongsToMany
+    public function students(): HasMany
     {
-        return $this->belongsToMany(Student::class);
+        return $this->hasMany(Student::class);
     }
 
     public function lessons(): BelongsToMany
     {
-        return $this->belongsToMany(Lesson::class);
+        return $this->belongsToMany(Lesson::class, 'group_lessons', 'group_id', 'lesson_id');
     }
 
-    public function listenedLessons(): \Illuminate\Support\Collection
+    public function listenedLessons(): BelongsToMany
     {
-        return GroupLesson::whereGroupId($this->group->id)->whereStatus(1)->get();
+        return $this->lessons()->whereStatus(1);
     }
 }

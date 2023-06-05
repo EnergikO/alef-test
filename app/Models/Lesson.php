@@ -10,6 +10,8 @@ class Lesson extends Model
 {
     use HasFactory;
 
+    protected $table = 'lessons';
+
     protected $fillable = ['topic', 'description'];
 
     public function students(): HasMany
@@ -17,8 +19,13 @@ class Lesson extends Model
         return $this->hasMany(Student::class);
     }
 
-    public function listenedLessons(): \Illuminate\Support\Collection
+    public function groups()
     {
-        return GroupLesson::whereGroupId($this->group->id)->whereStatus(1)->get();
+        return $this->belongsToMany(Group::class, 'group_lessons', 'lesson_id', 'group_id');
+    }
+
+    public function auditionedGroups()
+    {
+        return $this->groups()->whereStatus(1);
     }
 }
