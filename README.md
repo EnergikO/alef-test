@@ -1,66 +1,45 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Тестовое задание компании Alef:
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Есть студенты, есть классы, и есть лекции.
+ 
+У студента есть имя и email (уникальный).
+У класса есть название (уникальное).
+У лекции есть тема (уникальная) и описание.
+ 
+Студент может состоять только в одном классе.
+В классе может быть много студентов.
+У каждого класса есть учебный план состоящий из разных лекций, в учебном плане лекции не могут повторяться.
+Разные классы проходят лекции в разном порядке.
+ 
+Сделать API, в котором будут реализованы следующие методы:
+1) получить список всех студентов
+2) получить информацию о конкретном студенте (имя, email + класс + прослушанные лекции)
+3) создать студента
+4) обновить студента (имя, принадлежность к классу)
+5) удалить студента
+ 
+6) получить список всех классов
+7) получить информацию о конкретном классе (название + студенты класса)
+8) получить учебный план (список лекций) для конкретного класса
+9) создать/обновить учебный план (очередность и состав лекций) для конкретного класса
+10) создать класс
+11) обновить класс (название)
+12) удалить класс (при удалении класса, привязанные студенты должны открепляться от класса, но не удаляться полностью из системы)
+ 
+13) получить список всех лекций
+14) получить информацию о конкретной лекции (тема, описание + какие классы прослушали лекцию + какие студенты прослушали лекцию)
+15) создать лекцию
+16) обновить лекцию (тема, описание)
+17) удалить лекцию
+ 
+Авторизацию делать не надо, фронт делать не надо, API должно быть публичным.
+ 
+Технические требования:
+ 
+1) Использовать везде строгую типизацию
+2) В контроллерах не должно быть бизнес-логики. Контроллер должен только принимать объект реквеста, получать из него отвалидированные данные, вызывать метод модели или сервиса, отлавливать эксепшены и отдавать результат в формате JSON
+3) Если есть сложная бизнес-логика, какие-то условия, которые выходят за рамки методов Eloquent, то их нужно вынести в сервисы. Сервис должен работать с моделью и реализовывать свои методы на основе методов модели или моделей с дополнением бизнес-логикой
+4) Результат запроса к API должен возвращаться в формате JSON
+5) Должна быть реализована валидация передаваемых в запросе к API данных, она должна быть вынесена в реквесты
+6) В контроллерах и сервисах использовать Dependency Injection
+7) Количество запросов должно быть оптимальным (использовать жадную загрузку для получения связанных данных)
