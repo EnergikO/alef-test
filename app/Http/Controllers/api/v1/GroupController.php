@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GroupRequest;
 use App\Http\Resources\v1\GroupWithStudentsAndLessonsResource;
 use App\Models\Group;
 use App\Serviceses\ResponseServise;
@@ -31,14 +32,10 @@ class GroupController extends Controller
         ]);
     }
 
-    public static function createGroup(Request $request): JsonResponse
+    public static function createGroup(GroupRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:100',
-        ]);
-
         $group = Group::create([
-            'name' => $validated['name'],
+            'name' => $request->get('name'),
         ]);
 
         return ResponseServise::successResponse([
@@ -46,19 +43,15 @@ class GroupController extends Controller
         ]);
     }
 
-    public static function updateGroup(Request $request, string $id): JsonResponse
+    public static function updateGroup(GroupRequest $request, string $id): JsonResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:100',
-        ]);
-
         $group = Group::find($id);
 
         if (empty($group)) {
             return ResponseServise::notFoundResponse('group', 'id', $id);
         }
 
-        $group->name = $validated['name'];
+        $group->name = $request->get('name');
 
         if (! $group->save()) {
             return ResponseServise::somethingWentWrongResponse();

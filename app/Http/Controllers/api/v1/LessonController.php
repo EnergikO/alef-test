@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LessonRequest;
 use App\Http\Resources\v1\LessonWithStudentsAndGroupsResource;
 use App\Models\Lesson;
 use App\Serviceses\ResponseServise;
@@ -11,14 +12,14 @@ use Illuminate\Http\Request;
 
 class LessonController extends Controller
 {
-    public static function getGroups(Request $request): JsonResponse
+    public static function getLessons(Request $request): JsonResponse
     {
         return ResponseServise::successResponse([
             'lessons' => LessonWithStudentsAndGroupsResource::collection(Lesson::all())
         ]);
     }
 
-    public static function getGroupById(Request $request, string $id): JsonResponse
+    public static function getLessonById(Request $request, string $id): JsonResponse
     {
         $lesson = Lesson::find($id);
 
@@ -31,16 +32,11 @@ class LessonController extends Controller
         ]);
     }
 
-    public static function createGroup(Request $request): JsonResponse
+    public static function createLesson(LessonRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'topic' => 'required|string|max:100',
-            'description' => 'required|string|max:1000',
-        ]);
-
         $lesson = Lesson::create([
-            'topic' => $validated['topic'],
-            'description' => $validated['description'],
+            'topic' => $request->get('topic'),
+            'description' => $request->get('description'),
         ]);
 
         return ResponseServise::successResponse([
@@ -48,22 +44,16 @@ class LessonController extends Controller
         ]);
     }
 
-    public static function updateGroup(Request $request, string $id): JsonResponse
+    public static function updateLesson(LessonRequest $request, string $id): JsonResponse
     {
-        $validated = $request->validate([
-            'topic' => 'required|string|max:100',
-            'description' => 'string|max:1000',
-        ]);
-
         $lesson = Lesson::find($id);
 
         if (empty($lesson)) {
             return ResponseServise::notFoundResponse('lesson', 'id', $id);
         }
 
-        foreach ($validated as $key => $value) {
-            $lesson->$key = $value;
-        }
+        $lesson->topic = $request->get('topic');
+        $lesson->description = $request->get('description');
 
         if (! $lesson->save()) {
             return ResponseServise::somethingWentWrongResponse();
@@ -74,7 +64,7 @@ class LessonController extends Controller
         ]);
     }
 
-    public static function deleteGroup(Request $request, string $id): JsonResponse
+    public static function deleteLesson(Request $request, string $id): JsonResponse
     {
         $lesson = Lesson::find($id);
 

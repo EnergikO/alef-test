@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StudentRequest;
 use App\Http\Resources\v1\StudentWithLessonsResource;
 use App\Serviceses\ResponseServise;
 use Illuminate\Http\Request;
@@ -32,18 +33,12 @@ class StudentController extends Controller
         ]);
     }
 
-    public static function createStudent(Request $request): JsonResponse
+    public static function createStudent(StudentRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:students',
-            'group_id' => 'numeric|exists:groups,id'
-        ]);
-
         $student = Student::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'group_id' => $validated['group_id'],
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'group_id' => $request->get('group_id'),
         ]);
 
         return ResponseServise::successResponse([
@@ -51,23 +46,17 @@ class StudentController extends Controller
         ]);
     }
 
-    public static function updateStudent(Request $request, string $id): JsonResponse
+    public static function updateStudent(StudentRequest $request, string $id): JsonResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => "email|unique:students,email,$id",
-            'group_id' => 'numeric|exists:groups,id'
-        ]);
-
         $student = Student::find($id);
 
         if (empty($student)) {
             return ResponseServise::notFoundResponse('student', 'id', $id);
         }
 
-        foreach ($validated as $key => $value) {
-            $student->$key = $value;
-        }
+        $student->name = $request->get('name');
+        $student->email = $request->get('email');
+        $student->group_id = $request->get('group_id');
 
         if (! $student->save()) {
             return ResponseServise::somethingWentWrongResponse();
