@@ -24,9 +24,9 @@ Route::prefix('/groups')->group(function () {
 });
 
 Route::prefix('/lessons')->group(function () {
-    // Route::get('/', [v1\LessonController::class, 'getLessons'])->name('lessons.get.all');
-    // Route::get('/{id}', [v1\LessonController::class, 'getLessonById'])->name('lessons.get');
-    // Route::post('/', [v1\LessonController::class, 'createLesson'])->name('lessons.create');
-    // Route::post('/{id}', [v1\LessonController::class, 'updateLesson'])->name('lessons.update');
-    // Route::delete('/{id}', [v1\LessonController::class, 'deleteLesson'])->name('lessons.delete');
+    Route::get('/', [v1\LessonController::class, 'getLessons'])->name('lessons.get.all');
+    Route::get('/{id}', [v1\LessonController::class, 'getLessonById'])->name('lessons.get');
+    Route::post('/', [v1\LessonController::class, 'createLesson'])->name('lessons.create');
+    Route::post('/{id}', [v1\LessonController::class, 'updateLesson'])->name('lessons.update');
+    Route::delete('/{id}', [v1\LessonController::class, 'deleteLesson'])->name('lessons.delete');
 });
